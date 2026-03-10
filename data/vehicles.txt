@@ -1,0 +1,3 @@
+V1773036976339|U003|Honda|civic|2018|DEA 4378|23000|Petrol|Car|4doors,Manual
+V1773040745166|U003|BMW|M4 AMG|2023|AAC 1265|2000|Electric|Car|4doors,Automatic
+V1773079689496|U003|Toyota|Corolla|2012|BC 5813|481012|Petrol|Car|4doors,Automatic

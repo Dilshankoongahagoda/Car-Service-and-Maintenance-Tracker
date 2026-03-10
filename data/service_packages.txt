@@ -1,0 +1,18 @@
+﻿P1|Periodic Maintenance|Lube Services|Full engine oil and filter change with high-grade lubricants.|LKR 3,500
+P2|Periodic Maintenance|Washing Packages|Detailed exterior wash and interior vacuuming.|LKR 2,500
+P3|Periodic Maintenance|Inspection Reports|A 50-point safety check and detailed status report.|LKR 4,000
+P4|Nano Coating|9H Ceramic Coating|A hard, protective layer to prevent minor scratches and oxidation.|LKR 45,000
+P5|Nano Coating|Hydrophobic Treatment|Water-repellent coating for easier cleaning and visibility.|LKR 35,000
+P6|Nano Coating|Paint Correction|Removing swirl marks to restore the original deep gloss.|LKR 25,000
+P7|Collision Repairs|Insurance Claims|Documentation and support for a hassle-free claim process.|Contact Us
+P8|Collision Repairs|Full Paints|High-quality oven-baked painting for a seamless finish.|LKR 85,000
+P9|Collision Repairs|Part Replacements|Structural and body part restoration using precision tools.|Based on Assessment
+P10|Mechanical Repair|Spare Parts Replacements|Installation of genuine or high-quality OEM parts.|LKR 5,500
+P11|Mechanical Repair|Hybrid Services|Comprehensive hybrid battery health checks and inverter cooling system maintenance.|LKR 12,000
+P12|Mechanical Repair|Engine Tuning|Fine-tuning the fuel and air systems for maximum efficiency.|LKR 8,500
+P13|Tyre Services|Battery Services|Full voltage testing, terminal cleaning, and health reports.|LKR 2,500
+P14|Tyre Services|Tyre Replacements|Professional fitting of premium brand tyres.|LKR 6,000+
+P15|Tyre Services|Wheel Balancing|Precision balancing to prevent vibrations and uneven wear.|LKR 3,000
+PKG1773000021484|﻿Tyre Services|Tire Fitting & Mounting|Professional mounting of new tires onto your rims using precision machinery.|LKR 3000
+PKG1773000092829|﻿Tyre Services|Wheel Alignment|Adjusting wheel angles to ensure straight driving and prevent uneven tire wear.|LKR 4000
+PKG1773000165796|﻿Tyre Services|Puncture Repair|Safe and reliable sealing of tire leaks or nail holes to get you back on the road.|LKR 6400

@@ -1,0 +1,5 @@
+U001|dil|dilshan@gmail.com|dil1234|dilshan koongahagoda|077077077|AdminUser|REGULAR
+U002|dildil|dil@gmail.com|dil1234password|dil|0771234567|CarOwner|
+U003|kavi|kavi@gmail.com|kavi1234|kavindu|0771234567|CarOwner|
+U004|kavikavi|kavi@example.com|kavi1234kavi1234|Kavi|0712345678|CarOwner|
+U005|diltestuser|test@example.com|dil1234password123|Test User|0771234567|CarOwner|
