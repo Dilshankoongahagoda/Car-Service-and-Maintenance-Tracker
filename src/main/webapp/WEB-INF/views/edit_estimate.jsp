@@ -107,7 +107,12 @@
             border: 1px solid var(--border); margin-top: 20px;
         }
         .total-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.95rem; }
+        .total-row.subtotal { font-weight: 600; border-top: 1px dashed var(--border); padding-top: 10px; margin-top: 4px; }
         .total-row.grand { font-size: 1.4rem; font-weight: 700; color: var(--primary); border-top: 2px solid var(--primary); padding-top: 12px; margin-top: 8px; }
+        .status-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 8px; }
+        .status-badge.pending { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+        .status-badge.completed { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .status-badge.cancelled { background: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
 
         @media (max-width: 768px) {
             .appt-info-row { grid-template-columns: 1fr; }
@@ -154,7 +159,9 @@
     <div class="form-container">
         <!-- Invoice Info Card -->
         <div class="appt-info-card">
-            <h4>📑 Invoice #${estimate.estimateId}</h4>
+            <h4>📑 Invoice #${estimate.estimateId}
+                <span class="status-badge ${fn:toLowerCase(estimate.status)}">${estimate.status}</span>
+            </h4>
             <div class="appt-info-row">
                 <div class="appt-info-item">
                     <div class="lbl">Customer</div>
@@ -251,7 +258,7 @@
             <div class="form-section">
                 <h3>📝 Invoice Notes</h3>
                 <div class="form-group">
-                    <textarea name="notes" rows="3" placeholder="Any additional notes...">${estimate.notes}</textarea>
+                    <textarea name="notes" rows="3" placeholder="e.g. Customer requested synthetic oil, battery checked, next service due in 5,000 km...">${estimate.notes}</textarea>
                 </div>
             </div>
 
@@ -357,12 +364,14 @@ function recalcTotals() {
     });
     var partsTotal = sumInputs('part-price');
     var serviceCharge = parseFloat(document.getElementById('serviceChargeInput').value) || 0;
-    var grandTotal = originalPriceNum + additionalTotal + partsTotal + serviceCharge;
+    var subtotal = originalPriceNum + additionalTotal + partsTotal + serviceCharge;
+    var grandTotal = subtotal;
 
     document.getElementById('originalTotal').textContent = 'Rs. ' + originalPriceNum.toFixed(2);
     document.getElementById('additionalTotal').textContent = 'Rs. ' + additionalTotal.toFixed(2);
     document.getElementById('partsTotal').textContent = 'Rs. ' + partsTotal.toFixed(2);
     document.getElementById('serviceChargeTotal').textContent = 'Rs. ' + serviceCharge.toFixed(2);
+    document.getElementById('subtotalDisplay').textContent = 'Rs. ' + subtotal.toFixed(2);
     document.getElementById('grandTotal').textContent = 'Rs. ' + grandTotal.toFixed(2);
 }
 
@@ -385,6 +394,10 @@ recalcTotals();
 
 // Form submit handler
 document.getElementById('invoiceForm').addEventListener('submit', function(e) {
+    // Validate: remove empty part rows before submit
+    document.querySelectorAll('.part-name').forEach(function(n) {
+        if (!n.value.trim()) { n.closest('.item-row').remove(); }
+    });
     document.getElementById('hServiceItems').value = originalServiceNames.join(',');
     document.getElementById('hServicePrices').value = originalPriceNum.toFixed(2);
 
