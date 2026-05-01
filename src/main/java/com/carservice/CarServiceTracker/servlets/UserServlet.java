@@ -67,12 +67,50 @@ public class UserServlet {
             return "redirect:/user?error=true";
         }
 
+        // Try direct auth first (works for admins with a local password)
         User user = userDAO.authenticateUser(username, password);
         if (user != null) {
             session.setAttribute("authUser", user);
             return "redirect:/dashboard";
         }
+
+        // Direct auth failed — check if this is a Firebase-registered user
+        // (their local password is empty; verify via Firebase using their email)
+        User existing = userDAO.getUserByUsername(username);
+        if (existing == null) {
+            // Also handle the edge-case where someone typed their email here
+            existing = userDAO.getUserByEmail(username);
+        }
+        if (existing != null && existing.getFirebaseUid() != null && !existing.getFirebaseUid().isEmpty()) {
+            if (verifyFirebasePassword(existing.getEmail(), password)) {
+                session.setAttribute("authUser", existing);
+                return "redirect:/dashboard";
+            }
+        }
+
         return "redirect:/user?error=true";
+    }
+
+    // ── Sign in to Firebase with email + password, returns true if successful ──
+    @SuppressWarnings("rawtypes")
+    private boolean verifyFirebasePassword(String email, String password) {
+        try {
+            String signInUrl = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + FIREBASE_API_KEY;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            // Escape special characters to safely embed in JSON string
+            String safeEmail    = email.replace("\\", "\\\\").replace("\"", "\\\"");
+            String safePassword = password.replace("\\", "\\\\").replace("\"", "\\\"");
+            String body = "{\"email\":\"" + safeEmail + "\",\"password\":\"" + safePassword + "\",\"returnSecureToken\":true}";
+            HttpEntity<String> request = new HttpEntity<>(body, headers);
+            ResponseEntity<Map> response = restTemplate.postForEntity(signInUrl, request, Map.class);
+            boolean ok = response.getBody() != null && response.getBody().containsKey("idToken");
+            System.out.println("Firebase username-login for " + safeEmail + ": " + (ok ? "SUCCESS" : "FAILED - " + response.getBody()));
+            return ok;
+        } catch (Exception e) {
+            System.err.println("Firebase password verification error: " + e.getMessage());
+            return false;
+        }
     }
 
     // ── Firebase token login (for regular users) ─────────────────────────────
@@ -110,7 +148,7 @@ public class UserServlet {
     }
 
     // ── Verifies Firebase idToken via REST API → [uid, email] or null ────────
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private String[] verifyFirebaseToken(String idToken) {
         try {
             HttpHeaders headers = new HttpHeaders();

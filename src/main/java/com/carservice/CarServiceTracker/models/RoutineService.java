@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RoutineService extends ServiceRecord {
-    private String serviceCategory;
-    private List<String> partsReplaced;
+    private final String serviceCategory;
+    private final List<String> partsReplaced;
 
     public RoutineService(String recordId, String vehicleId, LocalDate serviceDate,
                           int mileageAtService, double cost, String serviceCenterId, String notes,

@@ -1,18 +1,30 @@
-﻿P1|Periodic Maintenance|Lube Services|Full engine oil and filter change with high-grade lubricants.|LKR 3,500
-P2|Periodic Maintenance|Washing Packages|Detailed exterior wash and interior vacuuming.|LKR 2,500
-P3|Periodic Maintenance|Inspection Reports|A 50-point safety check and detailed status report.|LKR 4,000
-P4|Nano Coating|9H Ceramic Coating|A hard, protective layer to prevent minor scratches and oxidation.|LKR 45,000
-P5|Nano Coating|Hydrophobic Treatment|Water-repellent coating for easier cleaning and visibility.|LKR 35,000
-P6|Nano Coating|Paint Correction|Removing swirl marks to restore the original deep gloss.|LKR 25,000
-P7|Collision Repairs|Insurance Claims|Documentation and support for a hassle-free claim process.|Contact Us
-P8|Collision Repairs|Full Paints|High-quality oven-baked painting for a seamless finish.|LKR 85,000
-P9|Collision Repairs|Part Replacements|Structural and body part restoration using precision tools.|Based on Assessment
-P10|Mechanical Repair|Spare Parts Replacements|Installation of genuine or high-quality OEM parts.|LKR 5,500
-P11|Mechanical Repair|Hybrid Services|Comprehensive hybrid battery health checks and inverter cooling system maintenance.|LKR 12,000
-P12|Mechanical Repair|Engine Tuning|Fine-tuning the fuel and air systems for maximum efficiency.|LKR 8,500
-P13|Tyre Services|Battery Services|Full voltage testing, terminal cleaning, and health reports.|LKR 2,500
-P14|Tyre Services|Tyre Replacements|Professional fitting of premium brand tyres.|LKR 6,000+
-P15|Tyre Services|Wheel Balancing|Precision balancing to prevent vibrations and uneven wear.|LKR 3,000
-PKG1773000021484|﻿Tyre Services|Tire Fitting & Mounting|Professional mounting of new tires onto your rims using precision machinery.|LKR 3000
-PKG1773000092829|﻿Tyre Services|Wheel Alignment|Adjusting wheel angles to ensure straight driving and prevent uneven tire wear.|LKR 4000
-PKG1773000165796|﻿Tyre Services|Puncture Repair|Safe and reliable sealing of tire leaks or nail holes to get you back on the road.|LKR 6400
+P1|Periodic Maintenance|Basic Lube Service|Oil & filter change + 15-point safety check|Rs. 5,500
+P2|Periodic Maintenance|Full Service (Labor)|Engine, gearbox, differential check + full wash|Rs. 15,000
+P3|Periodic Maintenance|Radiator Coolant Flush|Drain & refill coolant|Rs. 4,500
+P4|Mechanical & Engine|Engine Tune-up|Spark plugs, throttle cleaning + scanning|Rs. 7,500
+P5|Mechanical & Engine|Fuel Injector Cleaning (Set of 4)|Ultrasonic cleaning|Rs. 8,000
+P6|Mechanical & Engine|Timing Belt Replacement|Professional labor|Rs. 15,000
+P7|Brakes & Suspension|Brake Pad Replacement|Front or rear set|Rs. 2,500
+P8|Brakes & Suspension|Brake Disc Resurfacing|Per pair|Rs. 4,000
+P9|Brakes & Suspension|Shock Absorber Replacement|Per side|Rs. 3,500
+P10|Brakes & Suspension|Wheel Alignment|4-wheel laser alignment|Rs. 2,500
+P11|Brakes & Suspension|Wheel Balancing (Per Wheel)|Precision balancing to prevent vibrations|Rs. 800
+P12|Electrical & Hybrid|Full System Scanning (OBDII)|Computerized diagnostics|Rs. 3,800
+P13|Electrical & Hybrid|AC Full Service|Gas refill + cleaning|Rs. 12,000
+P14|Electrical & Hybrid|Hybrid Battery Service|Cooling fan clean + health check|Rs. 10,900
+P15|Electrical & Hybrid|Battery Replacement (Labor)|Professional installation|Rs. 1,000
+P16|Body & Collision Repair|Denting / Tinkering|Per panel/spot|Rs. 8,000
+P17|Body & Collision Repair|Chassis Straightening|Full chassis restoration|Rs. 65,000
+P18|Body & Collision Repair|Plastic/Bumper Repair|Bumper restoration|Rs. 4,500
+P19|Body & Collision Repair|Windscreen Replacement (Labor)|Professional fitting|Rs. 8,000
+P20|Professional Auto Paint|Single Panel Paint|One panel respray|Rs. 15,000
+P21|Professional Auto Paint|Full Body Respray|Complete vehicle repaint|Rs. 190,000
+P22|Professional Auto Paint|Scratch Touch-ups|Minor scratch repair|Rs. 7,000
+P23|Accident Claims|Insurance Estimation Report|Detailed damage report|Rs. 2,000
+P24|Accident Claims|Damage Documentation|Photo & written documentation|Rs. 1,300
+P25|Accident Claims|Claim Coordination|End-to-end insurance handling|Rs. 3,000
+P26|Detailing & Car Care|Full Detail Wash|Complete exterior & interior wash|Rs. 4,000
+P27|Detailing & Car Care|Interior Grooming (Steam Clean)|Deep steam cleaning|Rs. 14,900
+P28|Detailing & Car Care|Engine Degreasing|Engine bay cleaning|Rs. 2,500
+P29|Detailing & Car Care|Cut & Polish|Paint correction & polishing|Rs. 24,500
+P30|Detailing & Car Care|Ceramic Coating (9H)|Premium ceramic protection|Rs. 120,000

@@ -1,5 +1,9 @@
-U001|dil|dilshan@gmail.com|dil1234|dilshan koongahagoda|077077077|AdminUser|REGULAR
-U002|dildil|dil@gmail.com|dil1234password|dil|0771234567|CarOwner|
-U003|kavi|kavi@gmail.com|kavi1234|kavindu|0771234567|CarOwner|
-U004|kavikavi|kavi@example.com|kavi1234kavi1234|Kavi|0712345678|CarOwner|
-U005|diltestuser|test@example.com|dil1234password123|Test User|0771234567|CarOwner|
+U001|dil|dilshan@gmail.com|dil1234|dilshan koongahagoda|077077077|AdminUser||REGULAR
+U002|dildil|dil@gmail.com|dil1234password|dil|0771234567|CarOwner||
+U003|kavi|kavi@gmail.com|kavi1234|kavindu|0771234567|CarOwner||
+U004|kavikavi|kavi@example.com|kavi1234kavi1234|Kavi|0712345678|CarOwner||
+U005|diltestuser|test@example.com|dil1234password123|Test User|0771234567|CarOwner||
+U006|Chathumi|chathumimdissanayaka@gmail.com||Chathumi Dissanayaka|0766322859|CarOwner|AGnxWXctS9gJ1OkkiZfXf3X41Wz2|
+U007|kcp|kcpsrilanka@gmai.com||kcp srilanka|0750428743|CarOwner|hNWdS6ypdDVvyz7RxVzjZVFg2yt2|
+U008|hasi|hasimota@gmail.com||hasindu nimesh|0776554323|CarOwner|PUcnML4889eppqTxu1Rc11XLlEH2|
+U009|testuser|test@example.com||Test User|0712345678|CarOwner|e2BNN9AxKIVoW9yTck4NbeKnDbY2|

@@ -107,6 +107,8 @@ public class AppointmentDAO {
     }
 
     private String safe(String s) {
-        return (s != null) ? s : "";
+        if (s == null) return "";
+        // Strip newlines and pipe chars to prevent data corruption
+        return s.replace("\n", " ").replace("\r", "").replace("|", " ");
     }
 }

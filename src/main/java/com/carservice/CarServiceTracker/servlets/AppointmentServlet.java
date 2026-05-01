@@ -85,10 +85,52 @@ public class AppointmentServlet {
         } else {
             // Show list of appointments
             if (authUser instanceof AdminUser) {
-                model.addAttribute("appointments", appointmentDao.findAll());
+                List<Appointment> all = appointmentDao.findAll();
+                // Sort by preferredDate descending (newest first)
+                all.sort((a1, a2) -> {
+                    int dateCmp = safeCompare(a2.getPreferredDate(), a1.getPreferredDate());
+                    if (dateCmp != 0) return dateCmp;
+                    return safeCompare(a1.getPreferredTime(), a2.getPreferredTime());
+                });
+                
+                List<Appointment> pending = new java.util.ArrayList<>();
+                List<Appointment> confirmed = new java.util.ArrayList<>();
+                List<Appointment> completed = new java.util.ArrayList<>();
+                
+                for (Appointment a : all) {
+                    if ("PENDING".equals(a.getStatus())) pending.add(a);
+                    else if ("CONFIRMED".equals(a.getStatus())) confirmed.add(a);
+                    else if ("COMPLETED".equals(a.getStatus())) completed.add(a);
+                }
+                
+                model.addAttribute("pendingAppointments", pending);
+                model.addAttribute("confirmedAppointments", confirmed);
+                model.addAttribute("completedAppointments", completed);
+                model.addAttribute("appointments", all);
                 model.addAttribute("isAdmin", true);
             } else {
-                model.addAttribute("appointments", appointmentDao.findByUserId(authUser.getUserId()));
+                List<Appointment> userAppts = appointmentDao.findByUserId(authUser.getUserId());
+                // Sort newest first
+                userAppts.sort((a1, a2) -> {
+                    int dateCmp = safeCompare(a2.getPreferredDate(), a1.getPreferredDate());
+                    if (dateCmp != 0) return dateCmp;
+                    return safeCompare(a1.getPreferredTime(), a2.getPreferredTime());
+                });
+
+                List<Appointment> pending = new java.util.ArrayList<>();
+                List<Appointment> confirmed = new java.util.ArrayList<>();
+                List<Appointment> completed = new java.util.ArrayList<>();
+
+                for (Appointment a : userAppts) {
+                    if ("PENDING".equals(a.getStatus())) pending.add(a);
+                    else if ("CONFIRMED".equals(a.getStatus())) confirmed.add(a);
+                    else if ("COMPLETED".equals(a.getStatus())) completed.add(a);
+                }
+
+                model.addAttribute("pendingAppointments", pending);
+                model.addAttribute("confirmedAppointments", confirmed);
+                model.addAttribute("completedAppointments", completed);
+                model.addAttribute("appointments", userAppts);
                 model.addAttribute("isAdmin", false);
             }
             return "appointments";
@@ -140,5 +182,12 @@ public class AppointmentServlet {
             return "redirect:/appointment?success=true";
         }
         return "redirect:/appointment";
+    }
+
+    private int safeCompare(String a, String b) {
+        if (a == null && b == null) return 0;
+        if (a == null) return -1;
+        if (b == null) return 1;
+        return a.compareTo(b);
     }
 }

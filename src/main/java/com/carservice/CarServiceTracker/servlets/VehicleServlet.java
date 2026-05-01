@@ -51,16 +51,9 @@ public class VehicleServlet {
                 String vehicleId = dao.generateVehicleId();
                 Vehicle vehicle;
 
-                if ("Car".equals(vehicleType)) {
-                    int doors = Integer.parseInt(doorsStr);
-                    vehicle = new Car(vehicleId, owner.getUserId(), make, modelName, year,
-                            licensePlate, mileage, fuelType, doors, transmission);
-                } else {
-                    int engineCC = Integer.parseInt(engineCCStr);
-                    boolean fairing = Boolean.parseBoolean(hasFairingStr);
-                    vehicle = new Motorcycle(vehicleId, owner.getUserId(), make, modelName, year,
-                            licensePlate, mileage, fuelType, engineCC, fairing);
-                }
+                int doors = doorsStr != null && !doorsStr.isEmpty() ? Integer.parseInt(doorsStr) : 4;
+                vehicle = new Car(vehicleId, owner.getUserId(), make, modelName, year,
+                        licensePlate, mileage, fuelType, doors, transmission);
 
                 dao.save(vehicle);
                 return "redirect:/dashboard?success=true";

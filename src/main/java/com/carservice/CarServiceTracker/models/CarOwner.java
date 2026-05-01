@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CarOwner extends User {
-    private List<String> vehicleIds;
+    private final List<String> vehicleIds;
 
     public CarOwner(String userId, String username, String email,
                     String password, String fullName, String phone) {

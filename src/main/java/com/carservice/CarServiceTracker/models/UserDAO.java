@@ -12,7 +12,7 @@ public class UserDAO {
         List<User> users = new ArrayList<>();
 
         for (String line : lines) {
-            String[] parts = line.split("\\|");
+            String[] parts = line.split("\\|", -1);
             if (parts.length >= 7) {
                 // Format: userId|username|email|password|fullName|phone|role|firebaseUid|roleSpecificData
                 String firebaseUid = parts.length > 7 ? parts[7] : "";

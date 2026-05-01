@@ -19,7 +19,7 @@
         }
         .service-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             margin-bottom: 50px;
         }
@@ -35,10 +35,13 @@
             opacity: 0;
         }
         .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(2) { animation-delay: 0.15s; }
+        .service-card:nth-child(3) { animation-delay: 0.2s; }
+        .service-card:nth-child(4) { animation-delay: 0.25s; }
+        .service-card:nth-child(5) { animation-delay: 0.3s; }
+        .service-card:nth-child(6) { animation-delay: 0.35s; }
+        .service-card:nth-child(7) { animation-delay: 0.4s; }
+        .service-card:nth-child(8) { animation-delay: 0.45s; }
         .service-card:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 20px 50px rgba(0,0,0,0.25);
@@ -68,7 +71,7 @@
         }
         .service-card-title {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: white;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -121,29 +124,29 @@
             background-size: 200% 100%;
             background-image: linear-gradient(90deg, var(--primary) 0%, #4da6ff 50%, var(--primary) 100%);
         }
+        .service-card-number {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 38px;
+            height: 38px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+        }
         .service-card a.card-link {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: 2;
         }
-        /* Admin delete button on card */
-        .card-admin-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            z-index: 3;
-            background: rgba(220,50,50,0.9);
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        .card-admin-btn:hover { background: rgba(200,30,30,1); }
 
         .section-divider {
             width: 80px;
@@ -151,6 +154,18 @@
             background: var(--primary);
             margin: 0 auto 40px;
             border-radius: 2px;
+        }
+
+        @media (max-width: 1100px) {
+            .service-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 800px) {
+            .service-grid { grid-template-columns: repeat(2, 1fr); }
+            .service-card { height: 280px; }
+        }
+        @media (max-width: 500px) {
+            .service-grid { grid-template-columns: 1fr; }
+            .service-card { height: 260px; }
         }
     </style>
 </head>
@@ -172,63 +187,144 @@
                 <li><a href="all_vehicles">REGISTERED VEHICLES</a></li>
                 <li><a href="service" class="active">MANAGE SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
             </c:if>
             <c:if test="${authUser.userRole != 'AdminUser'}">
                 <li><a href="dashboard">VEHICLES</a></li>
                 <li><a href="service" class="active">SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
                 <li><a href="reminder">REMINDERS</a></li>
-                <li><a href="fuel">FUEL LOGS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
+                <li><a href="profile">PROFILE</a></li>
             </c:if>
         </ul>
         <div class="nav-right">
             <span class="nav-user">Welcome, <strong>${authUser.fullName}</strong></span>
             <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px;">SIGN OUT &gt;</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </nav>
 
 <div class="page-container">
-    <!-- ========== PREMIUM SERVICE MENU ========== -->
+    <!-- ========== PREMIUM SERVICE MENU TITLE ========== -->
     <div style="text-align: center; margin-bottom: 10px; padding-top: 20px;">
         <h1 style="font-family: 'Oswald', sans-serif; font-size: 2.8rem; color: var(--dark); margin-bottom: 8px; letter-spacing: 2px;">PREMIUM AUTO SERVICE MENU</h1>
         <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto;">Click on any service category to explore detailed offerings and pricing</p>
     </div>
     <div class="section-divider"></div>
 
-    <!-- ========== ANIMATED SERVICE CARDS ========== -->
+    <!-- ========== 8 SERVICE CATEGORY CARDS ========== -->
     <div class="service-grid">
-        <c:forEach var="cat" items="${allCategories}">
-            <div class="service-card">
-                <a href="service_detail?category=${cat.name}" class="card-link"></a>
-                <c:choose>
-                    <c:when test="${cat.name == 'Tyre Services'}">
-                        <img src="${pageContext.request.contextPath}/images/tyre_services.png" alt="${cat.name}"/>
-                    </c:when>
-                    <c:when test="${cat.name == 'Mechanical Repair'}">
-                        <img src="${pageContext.request.contextPath}/images/mechanical_repair.png" alt="${cat.name}"/>
-                    </c:when>
-                    <c:when test="${cat.name == 'Collision Repairs'}">
-                        <img src="${pageContext.request.contextPath}/images/collision_repairs.png" alt="${cat.name}"/>
-                    </c:when>
-                    <c:when test="${cat.name == 'Nano Coating'}">
-                        <img src="${pageContext.request.contextPath}/images/nano_coating.png" alt="${cat.name}"/>
-                    </c:when>
-                    <c:when test="${cat.name == 'Periodic Maintenance'}">
-                        <img src="${pageContext.request.contextPath}/images/periodic_maintenance.png" alt="${cat.name}"/>
-                    </c:when>
-                    <c:otherwise>
-                        <img src="${pageContext.request.contextPath}/images/autocare_hero.png" alt="${cat.name}"/>
-                    </c:otherwise>
-                </c:choose>
-                <span class="service-card-badge">EXPLORE &rarr;</span>
-                <div class="service-card-overlay">
-                    <div class="service-card-title">${cat.name}</div>
-                    <div class="service-card-desc">${cat.description}</div>
-                    <span class="service-card-price">Starting: ${cat.startingPrice}</span>
-                </div>
+
+        <!-- 01. Periodic Maintenance -->
+        <div class="service-card">
+            <a href="service_detail?category=Periodic Maintenance" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/periodic.png" alt="Periodic Maintenance"/>
+            <span class="service-card-number">01</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Periodic Maintenance</div>
+                <div class="service-card-desc">Oil changes, filter replacements & routine care</div>
+                <span class="service-card-price">Starting: Rs. 3,500</span>
             </div>
-        </c:forEach>
+        </div>
+
+        <!-- 02. Mechanical & Engine -->
+        <div class="service-card">
+            <a href="service_detail?category=Mechanical %26 Engine" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/mechanical_engine.png" alt="Mechanical & Engine"/>
+            <span class="service-card-number">02</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Mechanical & Engine</div>
+                <div class="service-card-desc">Engine tune-ups, timing belts & transmission services</div>
+                <span class="service-card-price">Starting: Rs. 6,000</span>
+            </div>
+        </div>
+
+        <!-- 03. Brakes & Suspension -->
+        <div class="service-card">
+            <a href="service_detail?category=Brakes %26 Suspension" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/brakes_suspension.png" alt="Brakes & Suspension"/>
+            <span class="service-card-number">03</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Brakes & Suspension</div>
+                <div class="service-card-desc">Brake pads, shock absorbers & wheel alignment</div>
+                <span class="service-card-price">Starting: Rs. 800</span>
+            </div>
+        </div>
+
+        <!-- 04. Electrical & Hybrid -->
+        <div class="service-card">
+            <a href="service_detail?category=Electrical %26 Hybrid" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/electrical_hybrid.png" alt="Electrical & Hybrid"/>
+            <span class="service-card-number">04</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Electrical & Hybrid</div>
+                <div class="service-card-desc">OBD scanning, AC service & hybrid battery care</div>
+                <span class="service-card-price">Starting: Rs. 1,000</span>
+            </div>
+        </div>
+
+        <!-- 05. Body & Collision Repair -->
+        <div class="service-card">
+            <a href="service_detail?category=Body %26 Collision Repair" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/body_collision.png" alt="Body & Collision Repair"/>
+            <span class="service-card-number">05</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Body & Collision Repair</div>
+                <div class="service-card-desc">Denting, chassis straightening & bumper repair</div>
+                <span class="service-card-price">Starting: Rs. 3,000</span>
+            </div>
+        </div>
+
+        <!-- 06. Professional Auto Paint -->
+        <div class="service-card">
+            <a href="service_detail?category=Professional Auto Paint" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/auto_paint.png" alt="Professional Auto Paint"/>
+            <span class="service-card-number">06</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Professional Auto Paint</div>
+                <div class="service-card-desc">Panel painting, full respray & scratch touch-ups</div>
+                <span class="service-card-price">Starting: Rs. 5,000</span>
+            </div>
+        </div>
+
+        <!-- 07. Accident Claims -->
+        <div class="service-card">
+            <a href="service_detail?category=Accident Claims" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/accident_claims.png" alt="Accident Claims"/>
+            <span class="service-card-number">07</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Accident Claims</div>
+                <div class="service-card-desc">Insurance estimation, documentation & coordination</div>
+                <span class="service-card-price">Starting: Rs. 1,500</span>
+            </div>
+        </div>
+
+        <!-- 08. Detailing & Car Care -->
+        <div class="service-card">
+            <a href="service_detail?category=Detailing %26 Car Care" class="card-link"></a>
+            <img src="${pageContext.request.contextPath}/images/detailing_carcare.png" alt="Detailing & Car Care"/>
+            <span class="service-card-number">08</span>
+            <span class="service-card-badge">EXPLORE &rarr;</span>
+            <div class="service-card-overlay">
+                <div class="service-card-title">Detailing & Car Care</div>
+                <div class="service-card-desc">Full wash, ceramic coating & interior grooming</div>
+                <span class="service-card-price">Starting: Rs. 2,500</span>
+            </div>
+        </div>
+
     </div>
 
     <!-- ========== ADMIN: ADD PACKAGE ========== -->
@@ -245,7 +341,7 @@
                 </select>
                 <input type="text" name="name" placeholder="Package Name" required style="flex: 1; min-width: 200px; padding: 10px; border: 1px solid var(--border); border-radius: 4px;"/>
                 <input type="text" name="packageDescription" placeholder="Description" style="flex: 2; min-width: 250px; padding: 10px; border: 1px solid var(--border); border-radius: 4px;"/>
-                <input type="text" name="packagePrice" placeholder="Price (e.g. LKR 5,000)" style="flex: 1; min-width: 180px; padding: 10px; border: 1px solid var(--border); border-radius: 4px;"/>
+                <input type="text" name="packagePrice" placeholder="Price (e.g. Rs. 5,000)" style="flex: 1; min-width: 180px; padding: 10px; border: 1px solid var(--border); border-radius: 4px;"/>
                 <button type="submit" class="btn-primary-custom" style="padding: 10px 20px; border-radius: 4px; border: none; cursor: pointer; color: white; white-space: nowrap;">ADD PACKAGE +</button>
             </form>
         </div>
@@ -344,6 +440,20 @@
         });
     };
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('navHamburger');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        document.querySelector('.navbar-custom').classList.toggle('nav-open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar-custom')) {
+            var nav = document.querySelector('.navbar-custom');
+            if (nav) nav.classList.remove('nav-open');
+        }
+    });
+});
+</script>
 </body>
 </html>
-

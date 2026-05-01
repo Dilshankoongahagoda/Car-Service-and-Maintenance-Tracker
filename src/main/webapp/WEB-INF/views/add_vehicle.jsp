@@ -26,19 +26,26 @@
                 <li><a href="all_vehicles">REGISTERED VEHICLES</a></li>
                 <li><a href="service">MANAGE SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
             </c:if>
             <c:if test="${authUser.userRole != 'AdminUser'}">
                 <li><a href="dashboard" class="active">VEHICLES</a></li>
                 <li><a href="service">SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
                 <li><a href="reminder">REMINDERS</a></li>
-                <li><a href="fuel">FUEL LOGS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
+                <li><a href="profile">PROFILE</a></li>
             </c:if>
         </ul>
         <div class="nav-right">
             <span class="nav-user">Welcome, <strong>${authUser.fullName}</strong></span>
             <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px;">SIGN OUT &gt;</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </nav>
 
@@ -129,12 +136,9 @@
                         <option value="Hybrid">Hybrid</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="display:none;">
                     <label>VEHICLE CATEGORY</label>
-                    <select name="vehicleType" id="vehicleType" class="form-select" onchange="toggleFields()">
-                        <option value="Car">Car</option>
-                        <option value="Motorcycle">Motorcycle</option>
-                    </select>
+                    <input type="hidden" name="vehicleType" value="Car" />
                 </div>
             </div>
             
@@ -152,19 +156,7 @@
                 </div>
             </div>
             
-            <div id="motoFields" class="form-row" style="display: none; background:var(--light); padding:20px; border-radius:var(--radius); margin-bottom:20px;">
-                <div class="form-group" style="margin-bottom:0">
-                    <label>ENGINE CC</label>
-                    <input type="number" name="engineCC" class="form-input" value="150"/>
-                </div>
-                <div class="form-group" style="margin-bottom:0">
-                    <label>FAIRING</label>
-                    <select name="hasFairing" class="form-select">
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </div>
-            </div>
+
             
             <div style="display:flex; justify-content:space-between; margin-top:30px; border-top:1px solid var(--border); padding-top:20px;">
                 <a href="dashboard" class="btn-secondary-custom">CANCEL</a>
@@ -174,13 +166,7 @@
     </div>
 </div>
 
-<script>
-function toggleFields() {
-    var t = document.getElementById("vehicleType").value;
-    document.getElementById("carFields").style.display = t==="Car"?"grid":"none";
-    document.getElementById("motoFields").style.display = t==="Motorcycle"?"grid":"none";
-}
-</script>
+
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
     import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
@@ -198,6 +184,21 @@ function toggleFields() {
             window.location.href = 'user?action=logout';
         });
     };
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('navHamburger');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        document.querySelector('.navbar-custom').classList.toggle('nav-open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar-custom')) {
+            var nav = document.querySelector('.navbar-custom');
+            if (nav) nav.classList.remove('nav-open');
+        }
+    });
+});
 </script>
 </body>
 </html>

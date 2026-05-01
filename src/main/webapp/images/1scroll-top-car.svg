@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 220" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder car icon</title>
+  <desc id="desc">A top-view placeholder car used as a scroll to top button.</desc>
+  <defs>
+    <linearGradient id="carBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#46abff"/>
+      <stop offset="55%" stop-color="#1676ec"/>
+      <stop offset="100%" stop-color="#0a4db7"/>
+    </linearGradient>
+    <linearGradient id="carGlass" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d9f4ff"/>
+      <stop offset="100%" stop-color="#8cc3ff"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="60" cy="198" rx="24" ry="8" fill="#0f172a" opacity="0.16"/>
+  <path d="M37 21h46c10.4 0 18.9 8.5 18.9 18.9v136.2c0 12.1-9.8 21.9-21.9 21.9H40c-12.1 0-21.9-9.8-21.9-21.9V39.9C18.1 29.5 26.6 21 37 21Z" fill="url(#carBody)"/>
+  <path d="M43 30h34c9.1 0 16.4 7.2 16.9 16.3l2.4 47.1c.6 11.3-8.4 20.8-19.7 20.8H43.4c-11.3 0-20.2-9.5-19.7-20.8l2.4-47.1C26.6 37.2 33.9 30 43 30Z" fill="#0f4fb1" opacity="0.22"/>
+  <path d="M45 34h30c8 0 14.5 6.3 14.9 14.3l2.1 40.5c.5 9.8-7.3 18-17.1 18H45.1c-9.8 0-17.6-8.2-17.1-18l2.1-40.5C30.5 40.3 37 34 45 34Z" fill="url(#carGlass)"/>
+  <path d="M57 34h6v72h-6z" fill="#0b4ca9" opacity="0.28"/>
+  <path d="M31 48h9v25h-9c-3.9 0-7-3.1-7-7V55c0-3.9 3.1-7 7-7Z" fill="#13336d" opacity="0.5"/>
+  <path d="M80 48h9c3.9 0 7 3.1 7 7v11c0 3.9-3.1 7-7 7h-9z" fill="#eff6ff" opacity="0.9"/>
+  <path d="M31 92h9v25h-9c-3.9 0-7-3.1-7-7V99c0-3.9 3.1-7 7-7Z" fill="#13336d" opacity="0.5"/>
+  <path d="M80 92h9c3.9 0 7 3.1 7 7v11c0 3.9-3.1 7-7 7h-9z" fill="#eff6ff" opacity="0.9"/>
+  <rect x="47" y="116" width="26" height="44" rx="12" fill="#0b4ca9" opacity="0.18"/>
+  <rect x="43" y="163" width="34" height="18" rx="8" fill="#0a376f" opacity="0.26"/>
+  <circle cx="34" cy="56" r="10" fill="#1f2937"/>
+  <circle cx="34" cy="56" r="4.5" fill="#cfd7e2"/>
+  <circle cx="86" cy="56" r="10" fill="#1f2937"/>
+  <circle cx="86" cy="56" r="4.5" fill="#cfd7e2"/>
+  <circle cx="34" cy="143" r="10" fill="#1f2937"/>
+  <circle cx="34" cy="143" r="4.5" fill="#cfd7e2"/>
+  <circle cx="86" cy="143" r="10" fill="#1f2937"/>
+  <circle cx="86" cy="143" r="4.5" fill="#cfd7e2"/>
+  <rect x="45" y="18" width="10" height="6" rx="3" fill="#fff4c8"/>
+  <rect x="65" y="18" width="10" height="6" rx="3" fill="#fff4c8"/>
+  <rect x="45" y="195" width="10" height="6" rx="3" fill="#ff6575"/>
+  <rect x="65" y="195" width="10" height="6" rx="3" fill="#ff6575"/>
+</svg>

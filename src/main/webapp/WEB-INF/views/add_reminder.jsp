@@ -26,19 +26,26 @@
                 <li><a href="all_vehicles">REGISTERED VEHICLES</a></li>
                 <li><a href="service">MANAGE SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
             </c:if>
             <c:if test="${authUser.userRole != 'AdminUser'}">
                 <li><a href="dashboard">VEHICLES</a></li>
                 <li><a href="service">SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
                 <li><a href="reminder" class="active">REMINDERS</a></li>
-                <li><a href="fuel">FUEL LOGS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
+                <li><a href="profile">PROFILE</a></li>
             </c:if>
         </ul>
         <div class="nav-right">
             <span class="nav-user">Welcome, <strong>${authUser.fullName}</strong></span>
             <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px;">SIGN OUT &gt;</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </nav>
 
@@ -130,6 +137,21 @@ function toggleType() {
             window.location.href = 'user?action=logout';
         });
     };
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('navHamburger');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        document.querySelector('.navbar-custom').classList.toggle('nav-open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar-custom')) {
+            var nav = document.querySelector('.navbar-custom');
+            if (nav) nav.classList.remove('nav-open');
+        }
+    });
+});
 </script>
 </body>
 </html>

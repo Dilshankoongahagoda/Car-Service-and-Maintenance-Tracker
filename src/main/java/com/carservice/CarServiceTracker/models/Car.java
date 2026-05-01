@@ -1,8 +1,8 @@
 package com.carservice.CarServiceTracker.models;
 
 public class Car extends Vehicle {
-    private int numberOfDoors;
-    private String transmissionType;
+    private final int numberOfDoors;
+    private final String transmissionType;
 
     public Car(String vehicleId, String ownerId, String make, String model, int year,
                String licensePlate, int currentMileage, String fuelType,

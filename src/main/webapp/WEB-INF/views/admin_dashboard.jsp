@@ -215,7 +215,7 @@
         /* ===== SECONDARY STATS ===== */
         .secondary-stats {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -338,6 +338,21 @@
             font-size: 1.1rem;
             flex-shrink: 0;
         }
+        @media (max-width: 992px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .analytics-grid { grid-template-columns: 1fr; }
+            .secondary-stats { grid-template-columns: repeat(3, 1fr); }
+            .quick-actions { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .secondary-stats { grid-template-columns: repeat(2, 1fr); }
+            .quick-actions { grid-template-columns: 1fr; }
+            .ring-container { flex-direction: column; align-items: flex-start; }
+            .recent-card { overflow-x: auto; }
+            .recent-table { min-width: 580px; }
+            .bar-label { width: 70px; font-size: 0.72rem; }
+        }
     </style>
 </head>
 <body>
@@ -357,11 +372,17 @@
             <li><a href="all_vehicles">REGISTERED VEHICLES</a></li>
             <li><a href="service">MANAGE SERVICES</a></li>
             <li><a href="appointment">APPOINTMENTS</a></li>
+            <li><a href="estimate">ESTIMATES</a></li>
         </ul>
         <div class="nav-right">
             <span class="nav-user">Admin: <strong>${authUser.fullName}</strong></span>
-            <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px;">SIGN OUT &gt;</a>
+            <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px; white-space: nowrap; display: inline-flex; align-items: center; gap: 5px;">SIGN OUT &gt;</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </nav>
 
@@ -395,9 +416,9 @@
             <div class="qa-icon" style="background: #e8f5e9; color: #2E7D32;">✓</div>
             Completed Services
         </a>
-        <a href="service" class="qa-btn">
-            <div class="qa-icon" style="background: #f3e5f5; color: #7B1FA2;">⚙</div>
-            Service Packages
+        <a href="estimate" class="qa-btn">
+            <div class="qa-icon" style="background: #f3e5f5; color: #7B1FA2;">📑</div>
+            Manage Estimates
         </a>
     </div>
 
@@ -540,10 +561,7 @@
             <div class="ss-val" style="color: #1976D2;">${totalCars}</div>
             <div class="ss-lbl">Cars</div>
         </div>
-        <div class="ss-tile" style="animation-delay: 0.35s;">
-            <div class="ss-val" style="color: #E65100;">${totalMotorcycles}</div>
-            <div class="ss-lbl">Motorcycles</div>
-        </div>
+
         <div class="ss-tile" style="animation-delay: 0.4s;">
             <div class="ss-val" style="color: #7B1FA2;">${totalCategories}</div>
             <div class="ss-lbl">Service Categories</div>
@@ -553,8 +571,8 @@
             <div class="ss-lbl">Service Packages</div>
         </div>
         <div class="ss-tile" style="animation-delay: 0.5s;">
-            <div class="ss-val" style="color: #C62828;">${totalFuelLogs}</div>
-            <div class="ss-lbl">Fuel Logs</div>
+            <div class="ss-val" style="color: #C62828;">${totalEstimates}</div>
+            <div class="ss-lbl">Estimates</div>
         </div>
     </div>
 
@@ -602,6 +620,170 @@
         </table>
     </div>
 
+    <!-- ========== INVOICE ANALYTICS SECTION ========== -->
+    <div style="margin-bottom: 15px; margin-top: 10px;">
+        <h2 style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--text-muted); letter-spacing: 2px;">INVOICE ANALYTICS</h2>
+    </div>
+
+    <!-- Revenue Stats Row -->
+    <div class="stats-row">
+        <div class="stat-tile green" style="animation-delay: 0.55s;">
+            <div class="st-icon" style="background: #e8f5e9; color: #2E7D32;">💰</div>
+            <div class="st-value" style="font-size: 1.8rem;">Rs. ${invTotalRevenue}</div>
+            <div class="st-label">Total Revenue</div>
+            <a href="estimate" class="st-link">View invoices →</a>
+        </div>
+        <div class="stat-tile blue" style="animation-delay: 0.6s;">
+            <div class="st-icon" style="background: #e3f2fd; color: #1976D2;">📊</div>
+            <div class="st-value" style="font-size: 1.8rem;">Rs. ${invAvgInvoice}</div>
+            <div class="st-label">Avg Invoice Value</div>
+            <div style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">${invTotalCount} total invoices</div>
+        </div>
+        <div class="stat-tile orange" style="animation-delay: 0.65s;">
+            <div class="st-icon" style="background: #fff3e0; color: #E65100;">🔧</div>
+            <div class="st-value" style="font-size: 1.8rem;">Rs. ${invServiceCharges}</div>
+            <div class="st-label">Service Charges</div>
+            <div style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Labour & service fees</div>
+        </div>
+        <div class="stat-tile purple" style="animation-delay: 0.7s;">
+            <div class="st-icon" style="background: #f3e5f5; color: #7B1FA2;">⚙️</div>
+            <div class="st-value" style="font-size: 1.8rem;">Rs. ${invPartsRevenue}</div>
+            <div class="st-label">Parts Revenue</div>
+            <div style="margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Parts & materials</div>
+        </div>
+    </div>
+
+    <!-- Analytics Charts Row -->
+    <div class="analytics-grid">
+
+        <!-- Invoice Summary -->
+        <div class="analytics-card" style="animation-delay: 0.5s;">
+            <h3>INVOICE SUMMARY</h3>
+            <div class="ring-container">
+                <div class="ring-chart">
+                    <svg viewBox="0 0 140 140" width="140" height="140">
+                        <circle class="ring-bg" cx="70" cy="70" r="55"/>
+                        <circle class="ring-fg" cx="70" cy="70" r="55"
+                            stroke="#1565c0"
+                            stroke-dasharray="345.6"
+                            stroke-dashoffset="0"
+                        />
+                    </svg>
+                    <div class="ring-center">
+                        <div class="ring-val">${invTotalCount}</div>
+                        <div class="ring-lbl">Invoices</div>
+                    </div>
+                </div>
+                <div class="ring-legend">
+                    <div class="ring-legend-item">
+                        <div class="ring-legend-dot" style="background: #1565c0;"></div>
+                        <span class="rl-label">Total Invoices</span>
+                        <span class="rl-val">${invTotalCount}</span>
+                    </div>
+                    <div style="margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);">
+                        <div class="ring-legend-item" style="margin-bottom: 6px;">
+                            <span class="rl-label" style="font-weight: 700; color: var(--dark);">Total Revenue</span>
+                            <span class="rl-val" style="font-size: 1rem; color: #2E7D32;">Rs. ${invTotalRevenue}</span>
+                        </div>
+                        <div class="ring-legend-item" style="margin-bottom: 0;">
+                            <span class="rl-label" style="font-weight: 700; color: var(--dark);">Avg Invoice</span>
+                            <span class="rl-val" style="font-size: 1rem; color: #1565c0;">Rs. ${invAvgInvoice}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Services by Revenue -->
+        <div class="analytics-card" style="animation-delay: 0.6s;">
+            <h3>TOP SERVICES BY REVENUE</h3>
+            <c:choose>
+                <c:when test="${not empty topServiceNames}">
+                    <c:forEach var="svcName" items="${topServiceNames}" varStatus="loop">
+                        <div class="bar-row">
+                            <div class="bar-label" style="width: 130px; font-size: 0.75rem; line-height: 1.3;">${svcName}</div>
+                            <div class="bar-track">
+                                <c:set var="svcRev" value="${topServiceRevenues[loop.index]}" />
+                                <c:set var="barPercent" value="${(svcRev / invMaxServiceRevenue) * 100}" />
+                                <div class="bar-fill" style="width: ${barPercent > 0 ? barPercent : 5}%; min-width: 50px; background: linear-gradient(90deg, ${loop.index == 0 ? '#1976D2, #42a5f5' : loop.index == 1 ? '#2E7D32, #66bb6a' : loop.index == 2 ? '#E65100, #ff9800' : loop.index == 3 ? '#7B1FA2, #ba68c8' : '#455a64, #78909c'});">
+                                    <span>Rs. ${svcRev}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+                        <div style="font-size: 2rem; margin-bottom: 10px;">📋</div>
+                        <p>No invoice data yet</p>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+            <div style="margin-top: 15px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--text-muted);">
+                Showing top revenue-generating services across all invoices
+            </div>
+        </div>
+    </div>
+
+    <!-- Revenue Breakdown Tiles -->
+    <div style="margin-bottom: 12px;">
+        <h2 style="font-family: 'Oswald', sans-serif; font-size: 1rem; color: var(--text-muted); letter-spacing: 2px;">REVENUE BREAKDOWN</h2>
+    </div>
+    <div class="secondary-stats" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="ss-tile" style="animation-delay: 0.55s;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">🏷️</div>
+            <div class="ss-val" style="color: #1976D2; font-size: 1.6rem;">Rs. ${invTaxCollected}</div>
+            <div class="ss-lbl">Tax Collected</div>
+        </div>
+        <div class="ss-tile" style="animation-delay: 0.6s;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">🔧</div>
+            <div class="ss-val" style="color: #E65100; font-size: 1.6rem;">Rs. ${invServiceCharges}</div>
+            <div class="ss-lbl">Service / Labour Charges</div>
+        </div>
+        <div class="ss-tile" style="animation-delay: 0.65s;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">⚙️</div>
+            <div class="ss-val" style="color: #2E7D32; font-size: 1.6rem;">Rs. ${invPartsRevenue}</div>
+            <div class="ss-lbl">Parts Revenue</div>
+        </div>
+    </div>
+
+    <!-- Recent Invoices Table -->
+    <div class="recent-card" style="animation-delay: 0.7s;">
+        <h3 style="display: flex; justify-content: space-between; align-items: center;">
+            RECENT INVOICES
+            <a href="estimate" style="font-size: 0.8rem; color: var(--primary); text-decoration: none; font-weight: 600; font-family: 'Roboto', sans-serif; text-transform: none; letter-spacing: 0;">View all →</a>
+        </h3>
+        <table class="recent-table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Total</th>
+                    <th>Tax</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="inv" items="${recentInvoices}">
+                    <tr>
+                        <td><strong style="color: var(--primary);">${inv.estimateId}</strong></td>
+                        <td>${inv.userName}</td>
+                        <td style="max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${inv.vehicleInfo}</td>
+                        <td style="font-weight: 700; color: var(--dark);">Rs. ${inv.total}</td>
+                        <td style="color: var(--text-muted);">Rs. ${inv.tax}</td>
+                        <td>${inv.createdDate}</td>
+                    </tr>
+                </c:forEach>
+                <c:if test="${empty recentInvoices}">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 30px; color: var(--text-muted);">No invoices yet</td>
+                    </tr>
+                </c:if>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 
@@ -623,27 +805,20 @@
         });
     };
 </script>
-
-<!-- Scroll to Top Button -->
-<button id="scrollToTopBtn" class="scroll-to-top" title="Go to top">
-    <svg viewBox="0 0 320 512" width="16" height="16" fill="white"><path d="M177 159.7l136 136c9.4 9.4 9.4 24.6 0 33.9l-22.6 22.6c-9.4 9.4-24.6 9.4-33.9 0L160 255.9l-96.4 96.4c-9.4 9.4-24.6 9.4-33.9 0L7 329.7c-9.4-9.4-9.4-24.6 0-33.9l136-136c9.4-9.5 24.6-9.5 34-.1z"/></svg>
-</button>
-
 <script>
-    const scrollToTopBtn = document.getElementById("scrollToTopBtn");
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add("show");
-        } else {
-            scrollToTopBtn.classList.remove("show");
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('navHamburger');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        document.querySelector('.navbar-custom').classList.toggle('nav-open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar-custom')) {
+            var nav = document.querySelector('.navbar-custom');
+            if (nav) nav.classList.remove('nav-open');
         }
     });
-    scrollToTopBtn.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
+});
 </script>
 
 </body>

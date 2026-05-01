@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class DateBasedReminder extends Reminder {
-    private LocalDate dueDate;
-    private int advanceNoticeDays;
+    private final LocalDate dueDate;
+    private final int advanceNoticeDays;
 
     public DateBasedReminder(String reminderId, String vehicleId, String title, String description,
                              boolean isActive, LocalDate createdDate, LocalDate dueDate, int advanceNoticeDays) {

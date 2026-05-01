@@ -22,8 +22,6 @@ public class VehicleDAO {
             if (parts.length >= 10) {
                 if ("Car".equals(parts[8])) {
                     vehicles.add(new Car(parts));
-                } else if ("Motorcycle".equals(parts[8])) {
-                    vehicles.add(new Motorcycle(parts));
                 }
             }
         }

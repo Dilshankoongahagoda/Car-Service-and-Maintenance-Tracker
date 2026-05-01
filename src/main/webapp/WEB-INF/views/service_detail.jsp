@@ -65,17 +65,17 @@
 
         .pkg-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
             margin-top: 30px;
         }
         .pkg-card {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 0;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e8ecf1;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.3s;
             animation: scaleIn 0.5s ease forwards;
             opacity: 0;
             position: relative;
@@ -88,7 +88,9 @@
             width: 5px;
             height: 100%;
             background: var(--primary);
-            border-radius: 12px 0 0 12px;
+            border-radius: 16px 0 0 16px;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .pkg-card:nth-child(1) { animation-delay: 0.1s; }
         .pkg-card:nth-child(2) { animation-delay: 0.2s; }
@@ -96,9 +98,18 @@
         .pkg-card:nth-child(4) { animation-delay: 0.4s; }
         .pkg-card:nth-child(5) { animation-delay: 0.5s; }
         .pkg-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 16px 45px rgba(79,140,255,0.15);
+            border-color: var(--primary);
         }
+        .pkg-card:hover::before {
+            opacity: 1;
+        }
+
+        .pkg-card-body {
+            padding: 30px 28px;
+        }
+
         .pkg-card-icon {
             width: 50px;
             height: 50px;
@@ -110,11 +121,12 @@
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px rgba(79,140,255,0.3);
         }
         .pkg-card h3 {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--dark);
             margin: 0 0 10px 0;
             text-transform: uppercase;
@@ -122,10 +134,27 @@
         }
         .pkg-card p {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #888;
             line-height: 1.6;
-            margin: 0;
+            margin: 0 0 20px 0;
         }
+        .pkg-price-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f0f5ff 0%, #e8effc 100%);
+            border: 1px solid rgba(79,140,255,0.15);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        .pkg-price-badge .price-emoji {
+            font-size: 1.1rem;
+        }
+
         .pkg-card .pkg-admin-delete {
             position: absolute;
             top: 10px;
@@ -139,6 +168,7 @@
             text-decoration: none;
             font-weight: bold;
             transition: background 0.3s;
+            z-index: 3;
         }
         .pkg-card .pkg-admin-delete:hover { background: rgba(220,50,50,0.2); }
         .pkg-card .pkg-admin-edit {
@@ -154,18 +184,9 @@
             text-decoration: none;
             font-weight: bold;
             transition: background 0.3s;
+            z-index: 3;
         }
         .pkg-card .pkg-admin-edit:hover { background: rgba(0,100,200,0.2); }
-        .pkg-price-badge {
-            display: inline-block;
-            margin-top: 12px;
-            background: linear-gradient(135deg, var(--primary), #4da6ff);
-            color: white;
-            padding: 5px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
 
         .back-button {
             display: inline-flex;
@@ -196,7 +217,20 @@
             height: 4px;
             background: var(--primary);
             border-radius: 2px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
+        }
+        .detail-section-subtitle {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .detail-hero { height: 300px; }
+            .detail-hero-title { font-size: 2.2rem; }
+            .detail-hero-content { padding: 30px 25px; }
+            .pkg-grid { grid-template-columns: 1fr; }
+            .detail-content { padding: 30px 15px; }
         }
     </style>
 </head>
@@ -218,39 +252,55 @@
                 <li><a href="all_vehicles">REGISTERED VEHICLES</a></li>
                 <li><a href="service" class="active">MANAGE SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
             </c:if>
             <c:if test="${authUser.userRole != 'AdminUser'}">
                 <li><a href="dashboard">VEHICLES</a></li>
                 <li><a href="service" class="active">SERVICES</a></li>
                 <li><a href="appointment">APPOINTMENTS</a></li>
                 <li><a href="reminder">REMINDERS</a></li>
-                <li><a href="fuel">FUEL LOGS</a></li>
+                <li><a href="estimate">ESTIMATES</a></li>
+                <li><a href="profile">PROFILE</a></li>
             </c:if>
         </ul>
         <div class="nav-right">
             <span class="nav-user">Welcome, <strong>${authUser.fullName}</strong></span>
             <a href="#" onclick="firebaseSignOut()" class="btn-primary-custom" style="padding: 10px 20px;">SIGN OUT &gt;</a>
         </div>
+        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 </nav>
 
 <!-- HERO BANNER -->
 <div class="detail-hero">
     <c:choose>
-        <c:when test="${category.name == 'Tyre Services'}">
-            <img src="${pageContext.request.contextPath}/images/tyre_services.png" alt="${category.name}"/>
-        </c:when>
-        <c:when test="${category.name == 'Mechanical Repair'}">
-            <img src="${pageContext.request.contextPath}/images/mechanical_repair.png" alt="${category.name}"/>
-        </c:when>
-        <c:when test="${category.name == 'Collision Repairs'}">
-            <img src="${pageContext.request.contextPath}/images/collision_repairs.png" alt="${category.name}"/>
-        </c:when>
-        <c:when test="${category.name == 'Nano Coating'}">
-            <img src="${pageContext.request.contextPath}/images/nano_coating.png" alt="${category.name}"/>
-        </c:when>
         <c:when test="${category.name == 'Periodic Maintenance'}">
-            <img src="${pageContext.request.contextPath}/images/periodic_maintenance.png" alt="${category.name}"/>
+            <img src="${pageContext.request.contextPath}/images/periodic.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Mechanical & Engine'}">
+            <img src="${pageContext.request.contextPath}/images/mechanical_engine.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Brakes & Suspension'}">
+            <img src="${pageContext.request.contextPath}/images/brakes_suspension.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Electrical & Hybrid'}">
+            <img src="${pageContext.request.contextPath}/images/electrical_hybrid.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Body & Collision Repair'}">
+            <img src="${pageContext.request.contextPath}/images/body_collision.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Professional Auto Paint'}">
+            <img src="${pageContext.request.contextPath}/images/auto_paint.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Accident Claims'}">
+            <img src="${pageContext.request.contextPath}/images/accident_claims.png" alt="${category.name}"/>
+        </c:when>
+        <c:when test="${category.name == 'Detailing & Car Care'}">
+            <img src="${pageContext.request.contextPath}/images/detailing_carcare.png" alt="${category.name}"/>
         </c:when>
         <c:otherwise>
             <img src="${pageContext.request.contextPath}/images/autocare_hero.png" alt="${category.name}"/>
@@ -269,6 +319,7 @@
 
     <h2 class="detail-section-title">AVAILABLE PACKAGES</h2>
     <div class="detail-section-line"></div>
+    <p class="detail-section-subtitle">Browse our ${category.name} packages below. All prices are in Sri Lankan Rupees (Rs.)</p>
 
     <c:if test="${not empty packages}">
         <div class="pkg-grid">
@@ -278,26 +329,31 @@
                         <a href="service?action=editPackage&id=${pkg.id}" class="pkg-admin-edit">EDIT</a>
                         <a href="service?action=deletePackage&id=${pkg.id}" class="pkg-admin-delete" onclick="return confirm('Delete this package?')">DELETE</a>
                     </c:if>
-                    <div class="pkg-card-icon">
+                    <div class="pkg-card-body">
+                        <div class="pkg-card-icon">
+                            <c:choose>
+                                <c:when test="${i.index == 0}">&#9881;</c:when>
+                                <c:when test="${i.index == 1}">&#9733;</c:when>
+                                <c:when test="${i.index == 2}">&#9889;</c:when>
+                                <c:when test="${i.index == 3}">&#10026;</c:when>
+                                <c:otherwise>&#10004;</c:otherwise>
+                            </c:choose>
+                        </div>
+                        <h3>${pkg.name}</h3>
                         <c:choose>
-                            <c:when test="${i.index == 0}">&#9881;</c:when>
-                            <c:when test="${i.index == 1}">&#9733;</c:when>
-                            <c:when test="${i.index == 2}">&#9889;</c:when>
-                            <c:otherwise>&#10004;</c:otherwise>
+                            <c:when test="${not empty pkg.description}">
+                                <p>${pkg.description}</p>
+                            </c:when>
+                            <c:otherwise>
+                                <p style="font-style: italic;">Contact us for more details about this premium service.</p>
+                            </c:otherwise>
                         </c:choose>
+                        <c:if test="${not empty pkg.price}">
+                            <div class="pkg-price-badge">
+                                <span class="price-emoji">💰</span> ${pkg.price}
+                            </div>
+                        </c:if>
                     </div>
-                    <h3>${pkg.name}</h3>
-                    <c:choose>
-                        <c:when test="${not empty pkg.description}">
-                            <p>${pkg.description}</p>
-                        </c:when>
-                        <c:otherwise>
-                            <p style="font-style: italic;">Contact us for more details about this premium service.</p>
-                        </c:otherwise>
-                    </c:choose>
-                    <c:if test="${not empty pkg.price}">
-                        <span class="pkg-price-badge">${pkg.price}</span>
-                    </c:if>
                 </div>
             </c:forEach>
         </div>
@@ -325,6 +381,21 @@
             window.location.href = 'user?action=logout';
         });
     };
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('navHamburger');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+        document.querySelector('.navbar-custom').classList.toggle('nav-open');
+    });
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.navbar-custom')) {
+            var nav = document.querySelector('.navbar-custom');
+            if (nav) nav.classList.remove('nav-open');
+        }
+    });
+});
 </script>
 </body>
 </html>
