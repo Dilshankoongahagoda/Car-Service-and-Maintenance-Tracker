@@ -8,8 +8,13 @@ public class ServicePackageDAO {
     private static final String FILE_NAME = "service_packages.txt";
 
     public ServicePackageDAO() {
+        // Default constructor
     }
 
+    /**
+     * Retrieves all service packages from the data file.
+     * @return List of ServicePackage objects
+     */
     public List<ServicePackage> findAll() {
         List<ServicePackage> packages = new ArrayList<>();
         List<String> lines = FileHandler.readFile(FILE_NAME);
